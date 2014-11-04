@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://www.tesuri.org/TimeTableViewer" version="1.0.0" viewmodes="fullscreen">
+    <tizen:application id="AsEsZyogUN.TimeTableViewer" package="AsEsZyogUN" required_version="2.2"/>
+    <author href="http://www.tesuri.org/wiki/" email="tesuri@gmail.com">tesuri</author>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <icon src="icon.png"/>
+    <name>TimeTableViewer</name>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
+    <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
+</widget>

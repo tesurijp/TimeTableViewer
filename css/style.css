@@ -1,0 +1,24 @@
+
+<style type="text/css" media="screen,handheld">
+BODY {margin: 0px; padding: 1px; width:340px; background-color:#FFFFFF;}
+PRE { font-family: monospace;}
+FORM {margin: 0px;}
+SELECT {width: 340px; font-size: 150%;}
+#disptimetable {width:340px;}
+#blankspace {margin: 0px; padding: 0px; height:26px;}
+.list { width:340px; border-collapse: collapse;}
+.list_h { padding-top: 2px; padding-bottom: 2px; padding-left: 0px; padding-right: 0px; text-align: center; width:70px; font-size: 130%;}
+.list_c { padding-top: 2px; padding-bottom: 2px; padding-left: 0px; padding-right: 0px; text-align: left; width:270px; font-size: 130%;}
+.list_t { text-align: center; font-size: 130%;}
+.lasttime { color:red; text-align: right; font-size: 130%;}
+.date {font-size: 90%; padding-top: 6px; padding-bottom: 4px; color:white; text-align: right; width:340px;}
+.match { background-color: yellow; }
+.wek1 {background-color: #CCCCFF;}
+.wek2 {background-color: #EEEEFF;}
+.wek3 {background-color: #000033; color: #FFFFFF;}
+.hol1 {background-color: #FFCCCC;}
+.hol2 {background-color: #FFEEEE;}
+.hol3 {background-color: #660000; color: #FFFFFF;}
+.message {color:red; text-align: center; font-size: 150%; margin-top: 20px; margin-bottom: 20px;}
+.link { font-size: 100%;}
+</style>
