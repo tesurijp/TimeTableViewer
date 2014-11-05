@@ -6,6 +6,7 @@
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
     <name>TimeTableViewer</name>
+    <name xml:lang="ja-jp">時刻表</name>
     <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
     <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
     <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>

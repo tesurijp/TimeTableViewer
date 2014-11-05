@@ -1,17 +1,16 @@
 
-// ----------------------------------------------- 
-// Js-TT Version 1.50 (2014.11.10)
-// Copyright(c) 2004-2006 by Hazel
-// modified 2014 by tesuri
-// ----------------------------------------------- 
+//----------------------------------------------- 
+//Js-TT Version 1.50 (2014.11.5)
+//Copyright(c) 2004-2006 by Hazel
+//modified 2014 by tesuri
+//----------------------------------------------- 
 
 
-// -------------------------------------------------  
-// 定数・グローバル変数設定
-// -------------------------------------------------  
+//-------------------------------------------------  
+//定数・グローバル変数設定
+//-------------------------------------------------  
 
 var Version = "1.5.0" ;
-var WeekString = [ '日', '月', '火', '水', '木', '金', '土' ] ;
 
 var TableData ;
 var HolidayData ;
@@ -19,20 +18,20 @@ var TableSelectList = new Array() ;
 var ViewSelectList = new Array() ;
 
 var State = {
-    selTable:-1,
-    selView:-1,
-    selFilter:-1,
-    filter:new RegExp(".*")
+        selTable:-1,
+        selView:-1,
+        selFilter:-1,
+        filter:new RegExp(".*")
 }
 
 var intervalID = 0 ;
 var lock = false ;
 
 
-// -------------------------------------------------  
-// init()
-// Js-TTロード完了後の初期化処理をおこなう
-// -------------------------------------------------  
+//-------------------------------------------------  
+//init()
+//Js-TTロード完了後の初期化処理をおこなう
+//-------------------------------------------------  
 function init()
 {
     var element ;
@@ -54,11 +53,11 @@ function init()
     for (loop=0; loop<element.length; loop++) 
     {
         if (/tbl/.test(element.item(loop).id)) 
-            {
-                element.item(loop).innerHTML.match(/[;#] *(.*)\s/) ;
-                TableSelectList[count] = { ID:element.item(loop).id, string:RegExp.$1 } ;
-                count += 1 ;
-            }
+        {
+            element.item(loop).innerHTML.match(/[;#] *(.*)\s/) ;
+            TableSelectList[count] = { ID:element.item(loop).id, string:RegExp.$1 } ;
+            count += 1 ;
+        }
     }
 
 
@@ -84,17 +83,17 @@ function init()
     }
 
     else
-        dispMsg("時刻表データが見つかりません。ファイルが壊れている可能性があります。")
+        dispMsg(MSGLIST.ERROR_BROKEN);
 
     return ;
 }
 
 
 
-// -------------------------------------------------
-// dispMenu()
-// メニュー表示
-// -------------------------------------------------  
+//-------------------------------------------------
+//dispMenu()
+//メニュー表示
+//-------------------------------------------------  
 function dispMenu(dispMode)
 {
     var loop ;
@@ -127,22 +126,22 @@ function dispMenu(dispMode)
 
 
 
-// -------------------------------------------------
-// dispMsg()
-// 時刻表エリアにメッセージを表示
-// -------------------------------------------------  
+//-------------------------------------------------
+//dispMsg()
+//時刻表エリアにメッセージを表示
+//-------------------------------------------------  
 function dispMsg(message)
 {
     document.getElementById('disptimetable').innerHTML 
-            = ("<div class=message>" + message + "</div>")  ; 
+    = ("<div class=message>" + message + "</div>")  ; 
     return ;
 }
 
 
-// -------------------------------------------------
-// dispDate()
-// 時刻エリアにメッセージを表示
-// -------------------------------------------------  
+//-------------------------------------------------
+//dispDate()
+//時刻エリアにメッセージを表示
+//-------------------------------------------------  
 function dispDate(message)
 {
     document.getElementById('dispdate').innerHTML = message ; 
@@ -150,10 +149,10 @@ function dispDate(message)
 }
 
 
-// -------------------------------------------------  
-// dispTimeTable()
-// 時刻リストを表示 
-// -------------------------------------------------  
+//-------------------------------------------------  
+//dispTimeTable()
+//時刻リストを表示 
+//-------------------------------------------------  
 function dispTimeTable(callByTimer)
 {
     if (lock && callByTimer)
@@ -188,11 +187,11 @@ function dispTimeTable(callByTimer)
     if (TableList.length == 0)
     {
         if (State.filter.source != ".*")
-            dispMsg("該当条件なし<br>[" + State.filter.source + "]") ;
+            dispMsg(MSGLIST.NOT_APPLICABLE + "<br>[" + State.filter.source + "]") ;
         else
-            dispMsg("運休日です") ;
+            dispMsg(MSGLIST.OUT_OF_SERVICE) ;
     }
-    
+
     else
     {
         table = TableData[TableList.table] ;
@@ -207,22 +206,22 @@ function dispTimeTable(callByTimer)
         output += "<a name=\"top\"></a>\n" ;
         output += "<table class=list cellspacing=0>\n" ;
         output += "<tr><td colspan=2 class=\"list_t " + color[2] + "\">" + TableList.name + "</td></tr>\n" ;
-        
+
         for (loop=0; loop<TableList.length; loop++) {
-            
+
             output += "<tr>" ;
-            
+
             output += "<td class=\"list_h " + color[loop%2] + "\">" ;
             output += (((TableList[loop].hour % 24) > 9 ? "" : "&nbsp;") + (TableList[loop].hour % 24) + ":") ;
             output += (((TableList[loop].min > 9 ? "" : "0") + TableList[loop].min) + " </td>") ;
-            
+
             output += "<td class=\"list_c " + color[loop%2] + "\">" ;
             if (State.filter.source == ".*")
                 output += TableList[loop].comment ;
             else
                 output += TableList[loop].comment.replace(State.filter, "<span class=\"match\">$&</span>") ;
             output += "</td>" ;
-            
+
             output += "</tr>\n" ;
 
             if ((TableList.isRealtime) && (loop<3))
@@ -232,12 +231,12 @@ function dispTimeTable(callByTimer)
                 time = TableList.baseTime + (TableList[loop].hour *60 + TableList[loop].min) *60000 ;
                 time_diff = Math.ceil((time - now.getTime())/60000) ;
                 if (time_diff >= 60)
-                    time_last = ( "出発まであと " + Math.floor(time_diff/60) + "時間 " +  (time_diff%60) + "分" ) ;
+                    time_last = ( MSGLIST.UNTIL + Math.floor(time_diff/60) + MSGLIST.HOUR +  (time_diff%60) + MSGLIST.MIN ) ;
                 else if (time_diff > 0)
-                    time_last = ( "出発まであと " + (time_diff%60) + "分" ) ;
+                    time_last = ( MSGLIST.UNTIL + (time_diff%60) + MSGLIST.MIN ) ;
                 else
-                    time_last = ( "出発済み" ) ;
-                
+                    time_last = ( MSGLIST.LEFT ) ;
+
                 output += (time_last + "</td></tr>\n") ;
             }
         }
@@ -263,10 +262,10 @@ function dispTimeTable(callByTimer)
     return ;
 }
 
-// -------------------------------------------------  
-// selectTable()
-// 時刻表データ選択処理
-// -------------------------------------------------  
+//-------------------------------------------------  
+//selectTable()
+//時刻表データ選択処理
+//-------------------------------------------------  
 function selectTable(index)
 {
     if (index < 0)
@@ -275,7 +274,7 @@ function selectTable(index)
     var element ;
 
     lock = true ;
-    
+
     if ((State.selTable != index) && (TableSelectList[index].ID != 'top'))
     {
         State.selTable = index ;
@@ -285,7 +284,7 @@ function selectTable(index)
             delete TableData ;
         }
 
-        dispMsg("お待ち下さい...") ;
+        dispMsg(MSGLIST.WAIT_MSG);
         dispDate("&nbsp;") ;
 
         element = document.getElementById(TableSelectList[index].ID) ; 
@@ -305,10 +304,10 @@ function selectTable(index)
 }
 
 
-// -------------------------------------------------  
-// selectView()
-// 表示方法選択処理
-// -------------------------------------------------  
+//-------------------------------------------------  
+//selectView()
+//表示方法選択処理
+//-------------------------------------------------  
 function selectView(index)
 {
     if ((index < 0) || (State.selTable == -1))
@@ -322,7 +321,7 @@ function selectView(index)
         if (intervalID != 0)
             window.clearInterval(intervalID) ;
 
-        dispMsg("お待ち下さい...") ;
+        dispMsg(MSGLIST.WAIT_MSG);
         dispDate("&nbsp;") ;
         dispMenu('view') ;
         dispTimeTable(false) ;
@@ -334,10 +333,10 @@ function selectView(index)
 }
 
 
-// -------------------------------------------------  
-// selectFilter()
-// 抽出フィルタ選択処理
-// -------------------------------------------------  
+//-------------------------------------------------  
+//selectFilter()
+//抽出フィルタ選択処理
+//-------------------------------------------------  
 function selectFilter(index) 
 {
     if (index < 0)
@@ -366,7 +365,7 @@ function selectFilter(index)
 
         State.filter = filter ;
 
-        dispMsg("お待ち下さい...") ;
+        dispMsg(MSGLIST.WAIT_MSG);
         dispDate("&nbsp;") ;
         dispMenu('filter') ;
         dispTimeTable(false) ;
@@ -378,10 +377,10 @@ function selectFilter(index)
 
 
 
-// -------------------------------------------------  
-// loadTable()
-// 時刻表データロード
-// -------------------------------------------------  
+//-------------------------------------------------  
+//loadTable()
+//時刻表データロード
+//-------------------------------------------------  
 function loadData(data)
 {
     var tmp ;
@@ -479,10 +478,10 @@ function loadData(data)
 
 
 
-// -------------------------------------------------
-// loadHoliday()
-// 祝日データを解析し、オブジェクトを生成 
-// -------------------------------------------------  
+//-------------------------------------------------
+//loadHoliday()
+//祝日データを解析し、オブジェクトを生成 
+//-------------------------------------------------  
 function loadHoliday(data) 
 {
 
@@ -503,16 +502,16 @@ function loadHoliday(data)
             this.length += 1 ;
         }
     }
-    
+
     return (this) ;
 }
 
 
 
-// -------------------------------------------------
-// loadMenu()
-// メニューデータを解析し、オブジェクトを生成 
-// -------------------------------------------------  
+//-------------------------------------------------
+//loadMenu()
+//メニューデータを解析し、オブジェクトを生成 
+//-------------------------------------------------  
 function loadMenu(data) 
 {
     var row ;
@@ -535,10 +534,10 @@ function loadMenu(data)
 
 
 
-// -------------------------------------------------  
-// getNextList()
-// 次発リストを取得する
-// -------------------------------------------------  
+//-------------------------------------------------  
+//getNextList()
+//次発リストを取得する
+//-------------------------------------------------  
 function getNextList(date, method, filter, max) 
 {
     var token ;
@@ -556,14 +555,14 @@ function getNextList(date, method, filter, max)
     var baseTime = 0 ;
 
     now = today.getHours() * 60 + today.getMinutes() ;
-    
+
     t = getTableByDate(today) ;
     table = TableData[t] ;
 
     if (table.data.length == 0)
     {
         this.length = 0 ;
-        this.dateString = ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + "の時刻表")  ;
+        this.dateString =  MSGLIST.PRE_OF_TABLE + ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + MSGLIST.POST_OF_TABLE)  ;
         return (this) ;
     }
 
@@ -578,7 +577,7 @@ function getNextList(date, method, filter, max)
         t = getTableByDate(tomorrow) ;
         baseTime = Date.parse(tomorrow.getFullYear() + "/" + (tomorrow.getMonth()+1) + "/" + tomorrow.getDate()) ;
         now -= (1440) ;       // 1440(min) = 24(hour) * 60(min)
-        this.dateString = ((tomorrow.getMonth()+1) + "/" + tomorrow.getDate() + "(" + WeekString[tomorrow.getDay()] + ")" + "の時刻表")  ;
+        this.dateString = MSGLIST.PRE_OF_TABLE + (((tomorrow.getMonth()+1) + "/" + tomorrow.getDate() + "(" + WeekString[tomorrow.getDay()] + ")" + MSGLIST.POST_OF_TABLE))  ;
     }
 
     // 今日の始発が既に発車済みの場合は、今日のテーブル表示 
@@ -586,9 +585,9 @@ function getNextList(date, method, filter, max)
     {
 //      t = getTableByDate(today) ;
         baseTime = Date.parse(today.getFullYear() + "/" + (today.getMonth()+1) + "/" + today.getDate()) ;
-        this.dateString = ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + "の時刻表")  ;
+        this.dateString = MSGLIST.PRE_OF_TABLE + (((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + MSGLIST.POST_OF_TABLE))  ;
     }
-    
+
     // 深夜電車のチェック
     else 
     {
@@ -611,15 +610,15 @@ function getNextList(date, method, filter, max)
 //          t = getTableByDate(yesterday) ;
             baseTime = Date.parse(yesterday.getFullYear() + "/" + (yesterday.getMonth()+1) + "/" + yesterday.getDate()) ;
             now+=1440;
-            this.dateString = ((yesterday.getMonth()+1) + "/" + yesterday.getDate() + "(" + WeekString[yesterday.getDay()] + ")" + "深夜の時刻表")  ;
+            this.dateString = MSGLIST.PRE_OF_TABLE + (((yesterday.getMonth()+1) + "/" + yesterday.getDate() + "(" + WeekString[yesterday.getDay()] + ")" + MSGLIST.MIDNIGHT))  ;
         }
-        
+
         // 始発電車を待つ 
         else 
         {
             t = getTableByDate(today) ;
             baseTime = Date.parse(today.getFullYear() + "/" + (today.getMonth()+1) + "/" + today.getDate()) ;
-            this.dateString = ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + "の時刻表")  ;
+            this.dateString = MSGLIST.PRE_OF_TABLE + (((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")"+ MSGLIST.POST_OF_TABLE))  ;
         }
     }
 
@@ -688,7 +687,7 @@ function getNextList(date, method, filter, max)
                     string = '' ;
                     for (loop=0; loop<token[col].length; loop++) 
                         string += (TableData.comment[token[col].charAt(loop)] + " ") ;
-                    
+
                     filter.lastIndex = 0 ;
                     if (filter.test(string))
                     {
@@ -729,10 +728,10 @@ function getNextList(date, method, filter, max)
     return (this) ;
 }
 
-// -------------------------------------------------  
-// getLastList()
-// 終電リストを生成 
-// -------------------------------------------------  
+//-------------------------------------------------  
+//getLastList()
+//終電リストを生成 
+//-------------------------------------------------  
 function getLastList(today, filter, max) 
 {
     var token ;
@@ -746,14 +745,14 @@ function getLastList(today, filter, max)
     var baseTime = 0 ;
 
     now = today.getHours() * 60 + today.getMinutes() ;
-    
+
     t = getTableByDate(today) ;
     table = TableData[t] ;
 
     if (table.data.length == 0)
     {
         this.length = 0 ;
-        this.dateString = ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + "の時刻表")  ;
+        this.dateString = MSGLIST.PRE_OF_TABLE + ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + MSGLIST.POST_OF_TABLE );
         return (this) ;
     }
 
@@ -767,7 +766,7 @@ function getLastList(today, filter, max)
     {
 //      t = getTableByDate(today) ;
         baseTime = Date.parse(today.getFullYear() + "/" + (today.getMonth()+1) + "/" + today.getDate()) ;
-        this.dateString = ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + "の時刻表")  ;
+        this.dateString = MSGLIST.PRE_OF_TABLE + ((today.getMonth()+1) + "/" + today.getDate() + "(" + WeekString[today.getDay()] + ")" + MSGLIST.POST_OF_TABLE)  ;
     }
 
     // 昨日の終電を表示 
@@ -776,7 +775,7 @@ function getLastList(today, filter, max)
         t = getTableByDate(yesterday) ;
         baseTime = Date.parse(yesterday.getFullYear() + "/" + (yesterday.getMonth()+1) + "/" + yesterday.getDate()) ;
         now+=1440;
-        this.dateString = ((yesterday.getMonth()+1) + "/" + yesterday.getDate() + "(" + WeekString[yesterday.getDay()] + ")" + "の時刻表")  ;
+        this.dateString = MSGLIST.PRE_OF_TABLE + ((yesterday.getMonth()+1) + "/" + yesterday.getDate() + "(" + WeekString[yesterday.getDay()] + ")" + MSGLIST.POST_OF_TABLE)  ;
     }
 
 
@@ -832,10 +831,10 @@ function getLastList(today, filter, max)
 }
 
 
-// -------------------------------------------------  
-// getAllList()
-// 一日全てのリストを生成する
-// -------------------------------------------------  
+//-------------------------------------------------  
+//getAllList()
+//一日全てのリストを生成する
+//-------------------------------------------------  
 function getAllList(method, filter) 
 {
     var token ;
@@ -914,7 +913,7 @@ function getAllList(method, filter)
                     string = '' ;
                     for (loop=0; loop<token[col].length; loop++) 
                         string += (TableData.comment[token[col].charAt(loop)] + " ") ;
-                    
+
                     filter.lastIndex = 0 ;
                     if (filter.test(string)) 
                     {
@@ -957,38 +956,33 @@ function getAllList(method, filter)
 }
 
 
-// -------------------------------------------------  
-// getTableByDate()
-// 日付をもとに使用するテーブルを選択する 
-// -------------------------------------------------  
+//-------------------------------------------------  
+//getTableByDate()
+//日付をもとに使用するテーブルを選択する 
+//-------------------------------------------------  
 function getTableByDate(date)
 {
     var week = date.getDay() ;
-    
+
     for(var loop=0; loop<HolidayData.length; loop++)
     {
         if( (date.getFullYear()  == HolidayData[loop].y) &&
-            ((date.getMonth()+1) == HolidayData[loop].m) &&
-            (date.getDate()      == HolidayData[loop].d)) 
+                ((date.getMonth()+1) == HolidayData[loop].m) &&
+                (date.getDate()      == HolidayData[loop].d)) 
         {
             week=7 ;
             break ;
         }
         else if( (HolidayData[loop].y == 0) &&
-                 ((date.getMonth()+1) == HolidayData[loop].m) &&
-                 (date.getDate()      == HolidayData[loop].d)) 
+                ((date.getMonth()+1) == HolidayData[loop].m) &&
+                (date.getDate()      == HolidayData[loop].d)) 
         {
             week=7 ;
             break ;
         }
     }
-    
+
     return (TableData.week[week]) ;
 }
 
 
-window.addEventListener( 'tizenhwkey', function( ev ) {
-    if( ev.keyName == "back" ) {    
-        tizen.application.getCurrentApplication().exit();
-    }
-} );
