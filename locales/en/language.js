@@ -18,8 +18,10 @@ var MSGLIST = {
     'TABLE_OF_THU': 'TimeTable of Thursday',
     'TABLE_OF_FRI': 'TimeTable of Friday',
     'TABLE_OF_SAT': 'TimeTable of Saturday',
-    'TABLE_OF_HOL': 'TimeTable of Holiday',
+    'TABLE_OF_HOL': 'TimeTable of Holiday'
 };
+var SAMPLETBLPATH='sample.en.tbl';
+var HOLIDAYDATPATH='holiday.en.dat';
 
 function initMenu() {
     document.menuform.tablelist.options[0] = new Option('Choice Train', 'top');

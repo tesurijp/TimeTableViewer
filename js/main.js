@@ -1,6 +1,6 @@
 function load_holiday(next) {
     tizen.filesystem.resolve(
-        'wgt-package/holiday.dat', function(file) {
+        'wgt-package/' + HOLIDAYDATPATH , function(file) {
         file.readAsText(function(data) {
             document.getElementById('holiday').innerHTML = data;
             next();
@@ -35,7 +35,7 @@ function read_timetable_next(files, count, next) {
 
 function read_timetable_first(files, next) {
     if (files.length > 0) {
-        read_timetable_next(files, 0, next)
+        read_timetable_next(files, 0, next);
     } else {
         next();
     }
@@ -49,10 +49,10 @@ function load_timetable(next) {
     }, function() {
         tizen.filesystem.resolve("documents", function(dir) {
             dir.createDirectory('timetable');
-            dir.copyTo('wgt-package/sample.tbl', 'documents/timetable/sample.tbl', false, function() {
+            dir.copyTo('wgt-package/' + SAMPLETBLPATH, 'documents/timetable/' +SAMPLETBLPATH, false, function() {
                 load_timetable(next);
             }, function(err) {
-                console.log(err)
+                console.log(err);
             });
         }, function(err) {
             console.log(err)

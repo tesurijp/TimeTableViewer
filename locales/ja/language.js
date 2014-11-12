@@ -18,8 +18,10 @@ var MSGLIST = {
     'TABLE_OF_THU': "木曜日の時刻表",
     'TABLE_OF_FRI': "金曜日の時刻表",
     'TABLE_OF_SAT': "土曜日の時刻表",
-    'TABLE_OF_HOL': "祝日の時刻表",
+    'TABLE_OF_HOL': "祝日の時刻表"
 };
+var SAMPLETBLPATH='sample.ja.tbl';
+var HOLIDAYDATPATH='holiday.ja.dat';
 
 function initMenu() {
     document.menuform.tablelist.options[0] = new Option('時刻表を選択', 'top');
