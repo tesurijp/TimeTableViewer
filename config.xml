@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://www.tesuri.org/TimeTableViewer" version="1.0.1" viewmodes="fullscreen">
-    <tizen:application id="AsEsZyogUN.TimeTableViewer" package="AsEsZyogUN" required_version="2.2"/>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://www.tesuri.org/TimeTableViewer" version="2.0.0" viewmodes="fullscreen">
+    <tizen:application id="USdGUE5kPZ.TimeTableViewer" package="USdGUE5kPZ" required_version="2.3.2"/>
     <author href="http://www.tesuri.org/wiki/" email="tesuri@gmail.com">tesuri</author>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
